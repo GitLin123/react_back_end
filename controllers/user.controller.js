@@ -131,3 +131,33 @@ export const loginUser = async (req, res) => {
         res.status(500).json({ error: '服务器内部错误' });
     }
 };
+
+//获取用户图库
+export const getUserImages = async (req,res) => {
+    try {
+        const id = req.params.id;
+        const images = await UserService.getUserImages(id);
+        res.status(200).json(images);
+    } catch (err) {
+        if (err instanceof NotFoundError) {
+            res.status(404).json({ error: err.message });
+        }else {
+            res.status(500).json({ error: "服务器内部错误" });
+        }
+    }
+}
+
+//图库添加图片
+export const addImage = async (req,res) => {
+    try {
+        const {id,data} = req.body;
+        const result = await UserService.addImage(id,data);
+        res.status(200).json({message:'success'});
+    } catch (err) {
+        if (err instanceof NotFoundError) {
+            res.status(404).json({ error: err.message });
+        }else {
+            res.status(500).json({ error: "服务器内部错误" });
+        }
+    }
+}

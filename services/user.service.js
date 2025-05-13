@@ -6,6 +6,7 @@ import { AuthError } from '../utils/errors.js';
 
 export class UserService {
 
+    //用户注册
     static async signUser(username, email, password) {
         // 检查用户名和邮箱是否已存在
         const existingUser = await UserRepository.getUserByName(username);
@@ -62,6 +63,12 @@ export class UserService {
         }
     }
 
+    //修改用户信息
+    static async changeUserInfo(full_name, email, phone, address, avatar, id) {
+
+    }
+
+
     //删除用户
     static async deleteUser(id) {
         // 参数校验
@@ -111,6 +118,24 @@ export class UserService {
             if (error instanceof AuthError) throw error;
             // 包装未知错
             throw new Error('登录过程发生异常');
+        }
+    }
+
+    //获取用户图库
+    static async getUserImages(id) {
+        try{
+            return await UserRepository.getImagesByID(id);
+        }catch (e) {
+            throw new Error('获取图库失败')
+        }
+    }
+
+    //Add一个图片到图库
+    static async addImage(id,data) {
+        try{
+            return await UserRepository.addImage(id,data);
+        }catch (e) {
+            throw new Error('添加图片失败')
         }
     }
 
